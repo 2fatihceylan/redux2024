@@ -79,18 +79,20 @@ const cartSlice = createSlice({
             state.total = total;
         }
     },
-    extraReducers: {
-        [getCartItems.pending]:(state)=>{  //getcartitems from api still loading(pending)
-            state.isLoading = true
-        },
-        [getCartItems.fulfilled]:(state, action)=>{  //getcartitems from api done (fullfilled)
-            state.isLoading = false;
-            state.cartItems = action.payload;   //api dan çektiğimiz cardItemsları burada redux cardıtemsa verdik
+    extraReducers: (builder)=> {
 
-        },
-        [getCartItems.rejected]:(state, action)=>{  //getcartitems from api error(rejected)
-            state.isLoading = false
-        }
+        builder
+        .addCase(getCartItems.pending, (state)=>{  //getcartitems from api still loading(pending)
+            state.isLoading = true;
+        })
+        .addCase(getCartItems.fulfilled, (state, action)=>{ //getcartitems from api done (fullfilled)
+            state.isLoading = false;
+            state.cartItems = action.payload;    //api dan çektiğimiz cardItemsları burada redux cardıtemsa verdik
+        })
+        .addCase(getCartItems.rejected, (state, action)=> {   //getcartitems from api error(rejected)
+            state.isLoading = false;
+        })
+
 
     }
 })
